@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c8233ef-08fe-409f-9324-b0140dc22f78" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/.idea/hometrol.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/REST_API.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/client.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/commons.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/config.conf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/cosa.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/engine.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/evento.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/mysql_database_init.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/mysql_pin_DAO.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/mysql_shield_DAO.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/pin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/prova.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/prova.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/shield.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/start.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/util/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../hometrol/core/util/json_util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/evento.py" afterPath="$PROJECT_DIR$/core/evento.py" />
     </list>
     <ignored path="Socket.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="engine.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+      <file leaf-file-name="engine.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/engine.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="76" column="27" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
+              <caret line="307" column="14" selection-start-line="307" selection-start-column="14" selection-end-line="307" selection-end-column="14" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -57,7 +36,7 @@
         </entry>
       </file>
       <file leaf-file-name="prova.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/prova.py">
+        <entry file="file://$PROJECT_DIR$/core/prova.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
               <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
@@ -67,7 +46,7 @@
         </entry>
       </file>
       <file leaf-file-name="commons.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/commons.py">
+        <entry file="file://$PROJECT_DIR$/core/commons.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
@@ -77,7 +56,7 @@
         </entry>
       </file>
       <file leaf-file-name="REST_API.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/REST_API.txt">
+        <entry file="file://$PROJECT_DIR$/core/REST_API.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
@@ -86,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="evento.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/evento.py">
+      <file leaf-file-name="evento.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/evento.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="102">
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -98,18 +77,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pin.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+      <file leaf-file-name="cosa.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/cosa.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="mysql_pin_DAO.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_pin_DAO.py">
+        <entry file="file://$PROJECT_DIR$/core/mysql_pin_DAO.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="19" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
@@ -119,7 +98,7 @@
         </entry>
       </file>
       <file leaf-file-name="mysql_database_init.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_database_init.py">
+        <entry file="file://$PROJECT_DIR$/core/mysql_database_init.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
@@ -129,7 +108,7 @@
         </entry>
       </file>
       <file leaf-file-name="mysql_shield_DAO.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_shield_DAO.py">
+        <entry file="file://$PROJECT_DIR$/core/mysql_shield_DAO.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
@@ -139,7 +118,7 @@
         </entry>
       </file>
       <file leaf-file-name="shield.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../hometrol/core/shield.py">
+        <entry file="file://$PROJECT_DIR$/core/shield.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
               <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
@@ -158,7 +137,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../hometrol" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -187,7 +166,8 @@
         <option value="$PROJECT_DIR$/commons.py" />
         <option value="$PROJECT_DIR$/prova.py" />
         <option value="$PROJECT_DIR$/engine.py" />
-        <option value="$PROJECT_DIR$/../hometrol/core/engine.py" />
+        <option value="$PROJECT_DIR$/core/engine.py" />
+        <option value="$PROJECT_DIR$/core/evento.py" />
       </list>
     </option>
   </component>
@@ -222,7 +202,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -248,10 +227,11 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hometrol" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
@@ -555,14 +535,14 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/prova.py">
+    <entry file="file://$PROJECT_DIR$/core/prova.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/shield.py">
+    <entry file="file://$PROJECT_DIR$/core/shield.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
@@ -570,7 +550,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/commons.py">
+    <entry file="file://$PROJECT_DIR$/core/commons.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -578,36 +558,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/util/json_util.py">
+    <entry file="file://$PROJECT_DIR$/core/util/json_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+    <entry file="file://$PROJECT_DIR$/core/engine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -617,14 +596,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/prova.py">
+    <entry file="file://$PROJECT_DIR$/core/prova.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/shield.py">
+    <entry file="file://$PROJECT_DIR$/core/shield.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
@@ -632,7 +611,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/commons.py">
+    <entry file="file://$PROJECT_DIR$/core/commons.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
@@ -640,36 +619,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/util/json_util.py">
+    <entry file="file://$PROJECT_DIR$/core/util/json_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+    <entry file="file://$PROJECT_DIR$/core/engine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -679,36 +657,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/util/json_util.py">
+    <entry file="file://$PROJECT_DIR$/core/util/json_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+    <entry file="file://$PROJECT_DIR$/core/engine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
@@ -718,29 +695,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+    <entry file="file://$PROJECT_DIR$/core/engine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
@@ -750,37 +726,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/cosa.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/azioni.py" />
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/config.conf">
+    <entry file="file://$PROJECT_DIR$/core/config.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
@@ -796,7 +764,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/azioni_engine.py" />
     <entry file="file://$PROJECT_DIR$/errorcode.py" />
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/start.py">
+    <entry file="file://$PROJECT_DIR$/core/start.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
@@ -804,24 +772,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pin/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/client.py">
+    <entry file="file://$PROJECT_DIR$/core/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3094">
           <caret line="191" column="0" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util/http_util.py" />
     <entry file="file://$PROJECT_DIR$/pin/remote_http_pin.py" />
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/util/json_util.py">
+    <entry file="file://$PROJECT_DIR$/core/util/json_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/pin.py">
+    <entry file="file://$PROJECT_DIR$/core/pin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
@@ -829,7 +796,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/shield.py">
+    <entry file="file://$PROJECT_DIR$/core/shield.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
@@ -837,7 +804,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_shield_DAO.py">
+    <entry file="file://$PROJECT_DIR$/core/mysql_shield_DAO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
@@ -845,7 +812,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_pin_DAO.py">
+    <entry file="file://$PROJECT_DIR$/core/mysql_pin_DAO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="19" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
@@ -853,7 +820,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/mysql_database_init.py">
+    <entry file="file://$PROJECT_DIR$/core/mysql_database_init.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
@@ -861,24 +828,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/prova.txt">
+    <entry file="file://$PROJECT_DIR$/core/prova.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/evento.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/REST_API.txt">
+    <entry file="file://$PROJECT_DIR$/core/REST_API.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
@@ -886,7 +843,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/prova.py">
+    <entry file="file://$PROJECT_DIR$/core/prova.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
@@ -894,7 +851,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/commons.py">
+    <entry file="file://$PROJECT_DIR$/core/commons.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
@@ -902,12 +859,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../hometrol/core/engine.py">
+    <entry file="file://$PROJECT_DIR$/core/engine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="76" column="27" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
+          <caret line="307" column="14" selection-start-line="307" selection-start-column="14" selection-end-line="307" selection-end-column="14" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/cosa.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/evento.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>

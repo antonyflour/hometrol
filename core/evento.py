@@ -2,6 +2,10 @@ import threading
 import time
 class Evento():
 
+    def __init__(self):
+        self.condition
+        self.action
+
     def stampa(self):
         while 1:
             print "avviso qualcuno"
