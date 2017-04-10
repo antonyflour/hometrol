@@ -1,0 +1,31 @@
+REST API
+
+GET:
+    /shields
+    /shield/{mac}/pin/{pin_number}
+    /shield/{mac}
+
+POST:
+
+    /shield/{mac}/pin/{pin_number}/state : modifica lo stato di un pin di output
+        parametri (JSON):
+            -   stato
+
+    /shield/{mac}/pin/{pin_number} : modifica parametri di un pin
+        parametri (JSON):
+            -   usato
+            -   nome
+            -   in_mode
+            -   out_mode
+
+    /shield/{mac} : modifica parametri di una scheda
+        parametri (JSON):
+            -   nome
+
+    /shield : aggiunta di una nuova scheda
+        parametri (JSON):
+            -   ip_shield
+            -   port_shield
+
+DELETE:
+    /shield/{mac} : rimuove la scheda dal sistema
