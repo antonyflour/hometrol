@@ -1,19 +1,42 @@
 import threading
-import time
+from condition import ConditionInterface
+from action import ActionInterface
+import datetime
+
 class Evento():
 
-    def __init__(self):
-        self.condition
-        self.action
 
-    def stampa(self):
-        while 1:
-            print "avviso qualcuno"
-            time.sleep(1)
+    # condizione da verificare, azione da compiere se la condizione e' verificata, intervallo di ripetizione dell'azione
+    def __init__(self, condition, action, repetitionInterval):
 
-    def check(self):
-        thread = threading.Thread(target=self.stampa)
-        thread.start()
+        if isinstance(condition, ConditionInterface) and \
+                isinstance(action, ActionInterface):
+            self.condition = condition
+            self.action = action
+        else:
+            raise TypeError()
+
+        self.repetitionInterval = repetitionInterval
+        self.lastNotifyTime = None
+        self.enabled = True
 
 
+    def checkAndExecute(self):
+        if self.isEnabled():
+            now = datetime.datetime.today()
+            if self.condition.isVerified():
+                if self.lastNotifyTime == None or \
+                        (now - self.lastNotifyTime).total_seconds() > (self.repetitionInterval*60):
+                    thread = threading.Thread(target=self.action.execute)
+                    thread.start()
+                    print now
+                    self.lastNotifyTime = now
 
+    def isEnabled(self):
+        return self.enabled
+
+    def disable(self):
+        self.enabled = False
+
+    def enable(self):
+        self.enabled = True

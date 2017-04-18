@@ -5,7 +5,7 @@ class ConditionInterface:
 
     __metaclass__ = ABCMeta
 
-    #restituisce vero se la condizione è rispettata
+    #restituisce vero se la condizione e' rispettata
     @abstractmethod
     def isVerified(self):
         pass

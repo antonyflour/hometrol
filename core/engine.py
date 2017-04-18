@@ -19,6 +19,7 @@ from pin import JsonPinEncoder
 from pin import Pin
 from shield import JsonShieldEncoder
 from shield import Shield
+from evento import Evento
 
 BUFFER_SIZE = 1000000
 
@@ -295,9 +296,9 @@ def aggiorna_stato_schede():
                 for pin, stato in zip(shield.output_pin, output_status):
                     pin.stato = stato
             else:
-                notifiche.append("Impossibile comunicare con la scheda: "+shield.mac)
+                pass#notifiche.append("Impossibile comunicare con la scheda: "+shield.mac)
         else:
-            notifiche.append("Impossibile comunicare con la scheda: " + shield.mac)
+            pass #notifiche.append("Impossibile comunicare con la scheda: " + shield.mac)
 
 
 '''MAIN'''
@@ -305,7 +306,8 @@ def aggiorna_stato_schede():
 cose = {}
 schede = {}
 config_dict = {}
-notifiche = []
+eventi = {}
+
 # leggo i valori dal file di configurazione
 try:
     with open("config.conf") as myfile:
@@ -347,12 +349,13 @@ serversocket.listen(1) # become a server socket, maximum 1 connections
 serversocket.setblocking(0)
 while True:
     print "verifico qualcosa"
+
     #mi collego alle schede per recuperare lo stato dei pin
     aggiorna_stato_schede()
 
-    for notifica in notifiche:
-        print notifica
-    notifiche=[]
+    #verifico la condizione ed eseguo l'azione associata per ogni evento registrato
+    for evento in eventi.keys():
+        evento.checkAndExecute()
 
     time.sleep(0.5)
 
@@ -360,7 +363,7 @@ while True:
     if ready_to_read :
         connection, address = serversocket.accept()
 
-        #la socket e aperta solo per i processi residenti sulla stessa macchina
+        #la socket e' aperta solo per i processi residenti sulla stessa macchina
         if(address[0] == "127.0.0.1"):
             buf = connection.recv(BUFFER_SIZE)
             if len(buf) > 0:

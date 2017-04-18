@@ -17,6 +17,7 @@ class myHandler(BaseHTTPRequestHandler):
     # Handler for the GET requests
     def do_GET(self):
 
+        #ottieni informazioni su tutte le schede
         if re.match("/shields$", self.path):
             buf = self.send_to_engine(EngineCommands.COMMAND_GET_INFO_SHIELDS, "")
 
@@ -26,6 +27,7 @@ class myHandler(BaseHTTPRequestHandler):
             #   Send the html message
             self.wfile.write(buf)
 
+        #ottieni informazioni su un pin
         elif re.match("/shield/.+/pin/.+", self.path):
             mac_address = self.path.split('/')[-3]
             numero_pin = self.path.split('/')[-1]
@@ -51,7 +53,7 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_MAC_PIN_MSG)
                 self.send_headers()
 
-
+        #ottini informazioni su una scheda
         elif re.match("/shield/.+", self.path):
             mac_address = self.path.split('/')[-1]  # prendo l'ultimo token
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
@@ -81,6 +83,7 @@ class myHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
 
+        #modifica stato pin
         if re.match("/shield/.+/pin/.+/state", self.path):
             mac_address = self.path.split('/')[-4]  # prendo l'ultimo token
             numero_pin = self.path.split('/')[-2]
@@ -127,6 +130,7 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_MAC_PIN_MSG)
                 self.send_headers()
 
+        #modifica informazioni del pin
         elif re.match("/shield/.+/pin/.+", self.path):
             mac_address = self.path.split('/')[-3]
             numero_pin = self.path.split('/')[-1]
@@ -168,7 +172,7 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_MAC_PIN_MSG)
                 self.send_headers()
 
-        # modify shield (supportata solo la modifica del nome)
+        # modifica informazioni scheda (supportata solo la modifica del nome)
         elif re.match("/shield/.+", self.path):
             mac_address = self.path.split('/')[-1]
 
@@ -208,7 +212,7 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_MAC_MSG)
                 self.send_headers()
 
-        # add shield
+        # aggiungi una nuova scheda remota
         elif re.match("/shield$", self.path):
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
             if ctype == 'application/json':
@@ -246,7 +250,10 @@ class myHandler(BaseHTTPRequestHandler):
 
         return
 
+
     def do_DELETE(self):
+
+        #elimina una scheda
         if re.match("/shield/.+", self.path):
             mac_address = self.path.split('/')[-1]    #prendo l'ultimo token
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
@@ -270,6 +277,13 @@ class myHandler(BaseHTTPRequestHandler):
             self.send_response(commons.ErrorCode.ERROR_NOT_FOUND_NUMBER,
                                commons.ErrorCode.ERROR_NOT_FOUND_MSG)
             self.send_headers()
+
+        return
+
+    def do_PUT(self):
+
+        if re.match("/events", self.path):
+            pass
 
         return
 
