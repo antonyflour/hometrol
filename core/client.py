@@ -282,8 +282,34 @@ class myHandler(BaseHTTPRequestHandler):
 
     def do_PUT(self):
 
+        # aggiungi un nuovo evento
         if re.match("/events", self.path):
-            pass
+            ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+            if ctype == 'application/json':
+                length = int(self.headers.getheader('content-length'))
+                payload = self.rfile.read(length).decode("utf-8")
+
+                if is_json(payload):
+
+                    buf = self.send_to_engine(EngineCommands.COMMAND_ADD_EVENT, payload)
+                    print buf
+
+                    code, body = self.parseResponse(buf)
+                    if code == 200:
+                        self.send_response(200)
+                        self.send_headers()
+                        self.send_payload(body)
+                    else:
+                        self.send_response(code, body)
+                        self.send_headers()
+                else:
+                    self.send_response(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                       commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+                    self.send_headers()
+            else:
+                self.send_response(commons.ErrorCode.ERROR_INVALID_CONTENT_TYPE_NUMBER,
+                                   commons.ErrorCode.ERROR_INVALID_CONTENT_TYPE_MSG)
+                self.send_headers()
 
         return
 

@@ -11,11 +11,11 @@ class EngineCommands:
     COMMAND_GET_PIN = "getPin"
     COMMAND_SET_PIN_STATE = "setPinState"
     COMMAND_MODIFY_SHIELD = "modifyShield"
-
+    COMMAND_ADD_EVENT = "addEvent"
 
 
 class URIPath:
-    '''
+
     URI_MAC = "/arduino_emulate/mac.php"
     URI_OUTPUT_PIN = "/arduino_emulate/output_pin.php"
     URI_INPUT_PIN = "/arduino_emulate/input_pin.php"
@@ -23,8 +23,9 @@ class URIPath:
     URI_OUTPUT_STATUS ="/arduino_emulate/output_status.php"
     URI_SET_STATUS ="/arduino_emulate/set_out.php"
     URI_TOGGLE = "/arduino_emulate/toggle.php"
-    '''
 
+
+    '''
     URI_MAC = "/mac"
     URI_OUTPUT_PIN = "/output_pin"
     URI_INPUT_PIN = "/input_pin"
@@ -32,6 +33,7 @@ class URIPath:
     URI_OUTPUT_STATUS = "/output_status"
     URI_SET_STATUS = "/setout"
     URI_TOGGLE = "/toggle"
+    '''
 
 
 class ErrorCode:
@@ -68,5 +70,8 @@ class ErrorCode:
     ERROR_COMMAND_NOT_RECOGNIZED_NUMBER = 909
     ERROR_COMMAND_NOT_RECOGNIZED_MSG = "Command not recognized"
 
+    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER = 910
+    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG = "Condition type not recognized"
 
-
+    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER = 911
+    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG = "Action type not recognized"

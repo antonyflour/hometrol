@@ -9,3 +9,5 @@ class ConditionInterface:
     @abstractmethod
     def isVerified(self):
         pass
+
+

@@ -7,7 +7,7 @@ class Evento():
 
 
     # condizione da verificare, azione da compiere se la condizione e' verificata, intervallo di ripetizione dell'azione
-    def __init__(self, condition, action, repetitionInterval):
+    def __init__(self, condition, action, repetitionInterval = 10):
 
         if isinstance(condition, ConditionInterface) and \
                 isinstance(action, ActionInterface):
