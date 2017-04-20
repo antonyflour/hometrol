@@ -4,7 +4,7 @@ REG_EXP_MAC_ADDRESS = "[0-9a-f]{2}([-:])[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$"
 
 class EngineCommands:
     COMMAND_ADD_SHIELD = "addShield"
-    COMMAND_GET_INFO_SHIELDS= "getInfoShields"
+    COMMAND_GET_INFO_SHIELDS= "getShields"
     COMMAND_DELETE_SHIELD = "deleteShield"
     COMMAND_MODIFY_PIN = "modifyPin"
     COMMAND_GET_SHIELD = "getShield"
@@ -12,6 +12,7 @@ class EngineCommands:
     COMMAND_SET_PIN_STATE = "setPinState"
     COMMAND_MODIFY_SHIELD = "modifyShield"
     COMMAND_ADD_EVENT = "addEvent"
+    COMMAND_GET_INFO_EVENTS = "getEvents"
 
 
 class URIPath:

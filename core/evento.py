@@ -1,13 +1,15 @@
 import threading
 from condition import ConditionInterface
 from action import ActionInterface
+from json_encoder import *
 import datetime
+import json
 
 class Evento():
 
 
     # condizione da verificare, azione da compiere se la condizione e' verificata, intervallo di ripetizione dell'azione
-    def __init__(self, condition, action, repetitionInterval = 10):
+    def __init__(self, id, condition, action, repetitionInterval = 10):
 
         if isinstance(condition, ConditionInterface) and \
                 isinstance(action, ActionInterface):
@@ -15,7 +17,7 @@ class Evento():
             self.action = action
         else:
             raise TypeError()
-
+        self.id = id
         self.repetitionInterval = repetitionInterval
         self.lastNotifyTime = None
         self.enabled = True
@@ -40,3 +42,16 @@ class Evento():
 
     def enable(self):
         self.enabled = True
+
+
+
+class JsonEventEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Evento):
+            return {"id" : obj.id,
+                    "condition": json.dumps(obj.condition, cls=JsonConditionEncoder),
+                    "action" : json.dumps(obj.action, cls=JsonActionEncoder),
+                    "repetitionInterval" : obj.repetitionInterval,
+                    }
+
+        return json.JSONEncoder.default(self, obj)

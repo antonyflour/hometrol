@@ -1,0 +1,2 @@
+1. Posso usare MySQLite?
+2. Posso creare gli oggetti direttamente in PHP?

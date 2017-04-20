@@ -27,6 +27,15 @@ class myHandler(BaseHTTPRequestHandler):
             #   Send the html message
             self.wfile.write(buf)
 
+        elif re.match("/events$", self.path):
+            buf = self.send_to_engine(EngineCommands.COMMAND_GET_INFO_EVENTS, "")
+
+            self.send_response(200)
+            self.send_headers()
+            self.end_headers()
+            #   Send the html message
+            self.wfile.write(buf)
+
         #ottieni informazioni su un pin
         elif re.match("/shield/.+/pin/.+", self.path):
             mac_address = self.path.split('/')[-3]

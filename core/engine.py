@@ -5,7 +5,7 @@ import re
 import select
 import socket
 import time
-
+from util import util
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -19,10 +19,8 @@ from pin import JsonPinEncoder
 from pin import Pin
 from shield import JsonShieldEncoder
 from shield import Shield
-from evento import Evento
-from pin_state_condition import PinStateCondition
-from condition import ConditionInterface
-from action import ActionInterface
+from evento import *
+from pin_state_alteration_condition import PinStateAlterationCondition
 from print_action import PrintAction
 
 BUFFER_SIZE = 1000000
@@ -51,6 +49,104 @@ def getArgumentLine(buf):
 #Se il codice NON e' 200 il parametro body corrisponde al messaggio di errore
 def formatResponse(response_code, body):
     return str(response_code)+"\n"+body
+
+
+
+############ GET METHOD ##############
+
+def getSchede():
+    response = "["
+    list_schede = schede.values()
+    for i in range(0, len(list_schede)):
+        scheda = list_schede[i]
+        response += json.dumps(scheda, cls=JsonShieldEncoder)
+        if (i != (len(list_schede) - 1)):
+            response += ","
+    response += "]"
+    return response
+
+def getScheda(mac):
+    if mac in schede:
+        scheda = schede[mac]
+        response = formatResponse(200, json.dumps(scheda, cls=JsonShieldEncoder))
+    else:
+        response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
+                                  commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
+    return response
+
+def getPin(json_argument):
+    # effettuo il parsing degli argomenti
+    received_json_data = json.loads(json_argument)
+    mac = received_json_data['mac']
+    if mac in schede:
+        scheda = schede[mac]
+        pin = scheda.getPinByNumber(received_json_data['numero_pin'])
+        if pin != None:
+            response = formatResponse(200, json.dumps(pin, cls=JsonPinEncoder))
+
+        else:
+            response = formatResponse(commons.ErrorCode.ERROR_PIN_NOT_FOUND_NUMBER,
+                                      commons.ErrorCode.ERROR_PIN_NOT_FOUND_MSG)
+    else:
+        response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
+                                  commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
+    return response
+
+def getEventi():
+    response = "\"eventi\":["
+    list_eventi = eventi.values()
+    for i in range(0, len(list_eventi)):
+        scheda = list_eventi[i]
+        response += json.dumps(scheda, cls=JsonEventEncoder)
+        if (i != (len(list_eventi) - 1)):
+            response += ","
+    response += "]"
+    return response
+
+
+########### ADD METHODS ###############
+
+def aggiungiEvento(json_argument):
+    # effettuo il parsing degli argomenti
+    received_json_data = json.loads(json_argument)
+    if 'mac' in received_json_data \
+            and 'numero_pin' in received_json_data \
+            and 'stato' in received_json_data \
+            and 'condition_type' in received_json_data \
+            and 'action_type' in received_json_data:
+        mac = received_json_data['mac']
+        if mac in schede:
+            scheda = schede[mac]
+            pin = scheda.getPinByNumber(received_json_data['numero_pin'])
+
+            if pin != None:
+                if received_json_data['condition_type'] == 'PinStateCondition':
+                    id = "COND-"+util.randstring()
+                    condition = PinStateAlterationCondition(id, scheda, pin, received_json_data['stato'])
+                    if received_json_data['action_type'] == 'PrintAction':
+                        id = "ACT-" + util.randstring()
+                        action = PrintAction(id, "e' stato attivato il pin " + pin.nome)
+                        id = "EV-" + util.randstring()
+                        eventi[id] = Evento(id, condition, action)
+
+                        response = formatResponse(200, "Evento "+id+" aggiunto")
+
+                    else:
+                        response = formatResponse(commons.ErrorCode.ERROR_ACTION_TYPE_NOT_RECOGNIZED_NUMBER,
+                                                  commons.ErrorCode.ERROR_ACTION_TYPE_NOT_RECOGNIZED_MSG)
+                else:
+                    response = formatResponse(commons.ErrorCode.ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER,
+                                              commons.ErrorCode.ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG)
+            else:
+                response = formatResponse(commons.ErrorCode.ERROR_PIN_NOT_FOUND_NUMBER,
+                                          commons.ErrorCode.ERROR_PIN_NOT_FOUND_MSG)
+        else:
+            response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
+                                      commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
+    else:
+        response = formatResponse(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                  commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+    return response
 
 def aggiungiScheda(json_argument):
     received_json_data = json.loads(json_argument)
@@ -115,34 +211,10 @@ def aggiungiScheda(json_argument):
                                   commons.ErrorCode.ERROR_SHIELD_COMMUNICATION_MSG)
     return response
 
-def getInfoSchede():
-    response = "["
-    list_schede = schede.values()
-    for i in range(0, len(list_schede)):
-        scheda = list_schede[i]
-        response += json.dumps(scheda, cls=JsonShieldEncoder)
-        if (i != (len(list_schede) - 1)):
-            response += ","
-    response += "]"
-    return response
 
-def getInfoScheda(mac):
-    if mac in schede:
-        scheda = schede[mac]
-        response = formatResponse(200, json.dumps(scheda, cls=JsonShieldEncoder))
-    else:
-        response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
-                                  commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
-    return response
+########## MODIFY METHODS ##############
 
-def eliminaScheda(mac):
-    scheda = schede[mac]
-    mysql_shield_DAO.drop_shield(cnx, scheda)
-    del schede[mac]
-    response = formatResponse(200, "Scheda rimossa")
-    return response
-
-def modificaInfoPin(json_argument):
+def modificaPin(json_argument):
     # effettuo il parsing degli argomenti
     received_json_data = json.loads(json_argument)
     if 'mac' in received_json_data and 'numero_pin' in received_json_data:
@@ -176,46 +248,7 @@ def modificaInfoPin(json_argument):
                                   commons.ErrorCode.ERROR_INVALID_BODY_MSG)
     return response
 
-def aggiungiEvento(json_argument):
-    # effettuo il parsing degli argomenti
-    received_json_data = json.loads(json_argument)
-    if 'mac' in received_json_data \
-            and 'numero_pin' in received_json_data \
-            and 'stato' in received_json_data \
-            and 'condition_type' in received_json_data \
-            and 'action_type' in received_json_data:
-        mac = received_json_data['mac']
-        if mac in schede:
-            scheda = schede[mac]
-            pin = scheda.getPinByNumber(received_json_data['numero_pin'])
-
-            if pin != None:
-                if received_json_data['condition_type'] == 'PinStateCondition':
-                    condition = PinStateCondition(pin, received_json_data['stato'])
-                    if received_json_data['action_type'] == 'PrintAction':
-                        action = PrintAction("e' stato attivato il pin " + pin.nome)
-                        eventi['evento1'] = Evento(condition, action)
-
-                        response = formatResponse(200, "Evento aggiunto")
-
-                    else:
-                        response = formatResponse(commons.ErrorCode.ERROR_ACTION_TYPE_NOT_RECOGNIZED_NUMBER,
-                                                  commons.ErrorCode.ERROR_ACTION_TYPE_NOT_RECOGNIZED_MSG)
-                else:
-                    response = formatResponse(commons.ErrorCode.ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER,
-                                              commons.ErrorCode.ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG)
-            else:
-                response = formatResponse(commons.ErrorCode.ERROR_PIN_NOT_FOUND_NUMBER,
-                                          commons.ErrorCode.ERROR_PIN_NOT_FOUND_MSG)
-        else:
-            response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
-                                      commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
-    else:
-        response = formatResponse(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
-                                  commons.ErrorCode.ERROR_INVALID_BODY_MSG)
-    return response
-
-def modificaInfoScheda(json_argument):
+def modificaScheda(json_argument):
     # effettuo il parsing degli argomenti
     received_json_data = json.loads(json_argument)
     if 'mac' in received_json_data:
@@ -238,23 +271,8 @@ def modificaInfoScheda(json_argument):
                                   commons.ErrorCode.ERROR_INVALID_BODY_MSG)
     return response
 
-def getInfoPin(json_argument):
-    # effettuo il parsing degli argomenti
-    received_json_data = json.loads(json_argument)
-    mac = received_json_data['mac']
-    if mac in schede:
-        scheda = schede[mac]
-        pin = scheda.getPinByNumber(received_json_data['numero_pin'])
-        if pin != None:
-            response = formatResponse(200, json.dumps(pin, cls=JsonPinEncoder))
 
-        else:
-            response = formatResponse(commons.ErrorCode.ERROR_PIN_NOT_FOUND_NUMBER,
-                                      commons.ErrorCode.ERROR_PIN_NOT_FOUND_MSG)
-    else:
-        response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
-                                  commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
-    return response
+######### SET METHODS ##################
 
 def setStatoPin(json_argument):
     # effettuo il parsing degli argomenti
@@ -296,6 +314,20 @@ def setStatoPin(json_argument):
                                   commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
     return response
 
+
+########## DELETE METHODS ###############
+
+def eliminaScheda(mac):
+    scheda = schede[mac]
+    mysql_shield_DAO.drop_shield(cnx, scheda)
+    del schede[mac]
+    response = formatResponse(200, "Scheda rimossa")
+    return response
+
+
+
+
+
 def eseguiAzione(buf):
 
     # AZIONE: AGGIUNGI SCHEDA
@@ -306,8 +338,11 @@ def eseguiAzione(buf):
 
     # AZIONE: RECUPERA INFORMAZIONI SCHEDE
     elif EngineCommands.COMMAND_GET_INFO_SHIELDS in buf:
-        response = getInfoSchede()
+        response = getSchede()
 
+    # AZIONE: RECUPERA INFORMAZIONI SCHEDE
+    elif EngineCommands.COMMAND_GET_INFO_EVENTS in buf:
+        response = getEventi()
 
     # AZIONE: ELIMINA SCHEDA
     elif EngineCommands.COMMAND_DELETE_SHIELD in buf:
@@ -317,7 +352,7 @@ def eseguiAzione(buf):
     # AZIONE: MODIFICA PIN
     elif EngineCommands.COMMAND_MODIFY_PIN in buf:
         json_argument = getArgumentLine(buf)
-        response = modificaInfoPin(json_argument)
+        response = modificaPin(json_argument)
 
 
     #AZIONE: AGGIUNGI EVENTO
@@ -329,13 +364,13 @@ def eseguiAzione(buf):
     # AZIONE: MODIFICA SCHEDA
     elif EngineCommands.COMMAND_MODIFY_SHIELD in buf:
         json_argument = getArgumentLine(buf)
-        response = modificaInfoScheda(json_argument)
+        response = modificaScheda(json_argument)
 
 
     # AZIONE: RESTITUISCE LE INFORMAZIONI DELLA SCHEDA
     elif EngineCommands.COMMAND_GET_SHIELD in buf:
         mac = getArgumentLine(buf)
-        response = getInfoScheda(mac)
+        response = getScheda(mac)
 
 
     # AZIONE: SETTA STATO PIN OUTPUT
@@ -347,7 +382,7 @@ def eseguiAzione(buf):
     # AZIONE: GET INFORMAZIONI PIN
     elif EngineCommands.COMMAND_GET_PIN in buf:
         json_argument = getArgumentLine(buf)
-        response = getInfoPin(json_argument)
+        response = getPin(json_argument)
 
 
     #comando non riconosciuto
@@ -389,7 +424,8 @@ def aggiorna_stato_schede():
             print "Impossibile comunicare con la scheda: " + shield.mac
 
 
-'''MAIN'''
+
+################################################## MAIN ####################################
 
 cose = {}
 schede = {}
