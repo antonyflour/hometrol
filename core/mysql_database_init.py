@@ -22,6 +22,36 @@ TABLE['pins'] = "CREATE TABLE pins(" \
                 "ON UPDATE CASCADE " \
                 "ON DELETE CASCADE);"
 
+TABLE['events'] = "CREATE TABLE events(" \
+                "id VARCHAR(50) PRIMARY KEY," \
+                "repetition_interval INTEGER," \
+                "enabled BOOLEAN," \
+                "last_exec_time DATETIME);"
+
+TABLE['conditions'] = "CREATE TABLE conditions(" \
+                "id VARCHAR(50) PRIMARY KEY," \
+                "event VARCHAR(50) NOT NULL," \
+                "mac_shield CHAR(17)," \
+                "pin_number INTEGER," \
+                "expected_state INTEGER," \
+                "FOREIGN KEY (mac_shield) REFERENCES shields(mac)," \
+                "FOREIGN KEY (event) REFERENCES events(id) " \
+                "ON UPDATE CASCADE " \
+                "ON DELETE CASCADE);"
+
+TABLE['actions'] = "CREATE TABLE actions(" \
+                "id VARCHAR(50) PRIMARY KEY," \
+                "event VARCHAR(50) NOT NULL," \
+                "type VARCHAR(50) NOT NULL," \
+                "mac_shield CHAR(17)," \
+                "pin_number INTEGER," \
+                "state INTEGER," \
+                "email VARCHAR(100)," \
+                "msg VARCHAR(1000)," \
+                "FOREIGN KEY (mac_shield) REFERENCES shields(mac)," \
+                "FOREIGN KEY (event) REFERENCES events(id) " \
+                "ON UPDATE CASCADE " \
+                "ON DELETE CASCADE);"
 
 import mysql.connector
 def create_database(cursor, db_name):
@@ -42,6 +72,27 @@ def create_table_shields(cursor):
 def create_table_pins(cursor):
     try:
         cursor.execute(TABLE['pins'])
+    except mysql.connector.Error as err:
+        print("Failed creating table pins: {}".format(err))
+        exit(1)
+
+def create_table_events(cursor):
+    try:
+        cursor.execute(TABLE['events'])
+    except mysql.connector.Error as err:
+        print("Failed creating table pins: {}".format(err))
+        exit(1)
+
+def create_table_conditions(cursor):
+    try:
+        cursor.execute(TABLE['conditions'])
+    except mysql.connector.Error as err:
+        print("Failed creating table pins: {}".format(err))
+        exit(1)
+
+def create_table_actions(cursor):
+    try:
+        cursor.execute(TABLE['actions'])
     except mysql.connector.Error as err:
         print("Failed creating table pins: {}".format(err))
         exit(1)

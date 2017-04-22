@@ -19,7 +19,7 @@ class Evento():
             raise TypeError()
         self.id = id
         self.repetitionInterval = repetitionInterval
-        self.lastNotifyTime = None
+        self.lastExecutionTime = None
         self.enabled = True
 
 
@@ -27,12 +27,12 @@ class Evento():
         if self.isEnabled():
             now = datetime.datetime.today()
             if self.condition.isVerified():
-                if self.lastNotifyTime == None or \
-                        (now - self.lastNotifyTime).total_seconds() > (self.repetitionInterval*60):
+                if self.lastExecutionTime == None or \
+                        (now - self.lastExecutionTime).total_seconds() > (self.repetitionInterval*60):
                     thread = threading.Thread(target=self.action.execute)
                     thread.start()
                     print now
-                    self.lastNotifyTime = now
+                    self.lastExecutionTime = now
 
     def isEnabled(self):
         return self.enabled
@@ -48,10 +48,15 @@ class Evento():
 class JsonEventEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Evento):
+            timeSerialized = None
+            if obj.lastExecutionTime is not None:
+                timeSerialized = obj.lastExecutionTime.isoformat()
             return {"id" : obj.id,
                     "condition": json.dumps(obj.condition, cls=JsonConditionEncoder),
                     "action" : json.dumps(obj.action, cls=JsonActionEncoder),
                     "repetitionInterval" : obj.repetitionInterval,
+                    "enabled" : obj.enabled,
+                    "last_exec_time" : timeSerialized
                     }
 
         return json.JSONEncoder.default(self, obj)

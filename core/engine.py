@@ -13,6 +13,9 @@ import commons
 import mysql_database_init
 import mysql_pin_DAO
 import mysql_shield_DAO
+import mysql_event_DAO
+import mysql_condition_DAO
+import mysql_action_DAO
 from commons import EngineCommands
 from commons import URIPath
 from pin import JsonPinEncoder
@@ -55,15 +58,7 @@ def formatResponse(response_code, body):
 ############ GET METHOD ##############
 
 def getSchede():
-    response = "["
-    list_schede = schede.values()
-    for i in range(0, len(list_schede)):
-        scheda = list_schede[i]
-        response += json.dumps(scheda, cls=JsonShieldEncoder)
-        if (i != (len(list_schede) - 1)):
-            response += ","
-    response += "]"
-    return response
+    return json.dumps(schede.values(), cls = JsonShieldEncoder)
 
 def getScheda(mac):
     if mac in schede:
@@ -93,15 +88,7 @@ def getPin(json_argument):
     return response
 
 def getEventi():
-    response = "\"eventi\":["
-    list_eventi = eventi.values()
-    for i in range(0, len(list_eventi)):
-        scheda = list_eventi[i]
-        response += json.dumps(scheda, cls=JsonEventEncoder)
-        if (i != (len(list_eventi) - 1)):
-            response += ","
-    response += "]"
-    return response
+    return json.dumps(eventi.values(), cls = JsonEventEncoder)
 
 
 ########### ADD METHODS ###############
@@ -127,7 +114,14 @@ def aggiungiEvento(json_argument):
                         id = "ACT-" + util.randstring()
                         action = PrintAction(id, "e' stato attivato il pin " + pin.nome)
                         id = "EV-" + util.randstring()
-                        eventi[id] = Evento(id, condition, action)
+                        evento = Evento(id, condition, action)
+
+                        # salvo tutto sul database
+                        mysql_event_DAO.add_event(cnx, evento)
+                        mysql_condition_DAO.add_condition(cnx, evento, condition)
+                        mysql_action_DAO.add_action(cnx, evento, action)
+
+                        eventi[id] = evento
 
                         response = formatResponse(200, "Evento "+id+" aggiunto")
 
@@ -461,11 +455,21 @@ except mysql.connector.Error as err:
     print "Tabella shields creata con successo"
     mysql_database_init.create_table_pins(cnx.cursor())
     print "Tabella pins creata con successo"
+    mysql_database_init.create_table_events(cnx.cursor())
+    print "Tabella events creata con successo"
+    mysql_database_init.create_table_conditions(cnx.cursor())
+    print "Tabella conditions creata con successo"
+    mysql_database_init.create_table_actions(cnx.cursor())
+    print "Tabella actions creata con successo"
+
   else:
     print(err)
     exit(1)
 
+
 carica_dati_salvati()
+
+#TODO: caricare gli EVENTI
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serversocket.bind(('localhost', 8089))
@@ -481,6 +485,8 @@ while True:
     #verifico la condizione ed eseguo l'azione associata per ogni evento registrato
     for evento in eventi.keys():
         eventi[evento].checkAndExecute()
+        #aggiorno il last_execution_time permanentemente
+        mysql_event_DAO.modify_event(cnx, eventi[evento])
 
     time.sleep(0.5)
 

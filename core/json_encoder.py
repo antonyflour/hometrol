@@ -7,7 +7,7 @@ class JsonConditionEncoder(json.JSONEncoder):
             return {"id" : obj.id,
                     "mac_shield": obj.shield.mac,
                     "pin_number" : obj.pin.numero,
-                    "expected_state" : obj.stato,
+                    "expected_state" : obj.expected_state,
                     }
 
         return json.JSONEncoder.default(self, obj)

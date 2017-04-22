@@ -6,3 +6,4 @@ def is_json(myjson):
     except ValueError, e:
         return False
     return True
+
