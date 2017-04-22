@@ -31,6 +31,7 @@ TABLE['events'] = "CREATE TABLE events(" \
 TABLE['conditions'] = "CREATE TABLE conditions(" \
                 "id VARCHAR(50) PRIMARY KEY," \
                 "event VARCHAR(50) NOT NULL," \
+                "type VARCHAR(50) NOT NULL," \
                 "mac_shield CHAR(17)," \
                 "pin_number INTEGER," \
                 "expected_state INTEGER," \

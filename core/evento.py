@@ -11,8 +11,8 @@ class Evento():
     # condizione da verificare, azione da compiere se la condizione e' verificata, intervallo di ripetizione dell'azione
     def __init__(self, id, condition, action, repetitionInterval = 10):
 
-        if isinstance(condition, ConditionInterface) and \
-                isinstance(action, ActionInterface):
+        if (condition is None or isinstance(condition, ConditionInterface)) and \
+                (action is None or isinstance(action, ActionInterface)):
             self.condition = condition
             self.action = action
         else:

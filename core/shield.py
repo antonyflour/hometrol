@@ -18,13 +18,13 @@ class Shield:
 
     def getInputPinByNumber(self, numero):
         for pin in self.input_pin:
-            if str(pin.numero) == numero:
+            if str(pin.numero) == str(numero):
                 return pin
         return None
 
     def getOutputPinByNumber(self, numero):
         for pin in self.output_pin:
-            if str(pin.numero) == numero:
+            if str(pin.numero) == str(numero):
                 return pin
         return None
 

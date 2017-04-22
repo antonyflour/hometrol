@@ -57,10 +57,10 @@ def formatResponse(response_code, body):
 
 ############ GET METHOD ##############
 
-def getSchede():
+def getJsonSchede():
     return json.dumps(schede.values(), cls = JsonShieldEncoder)
 
-def getScheda(mac):
+def getJsonScheda(mac):
     if mac in schede:
         scheda = schede[mac]
         response = formatResponse(200, json.dumps(scheda, cls=JsonShieldEncoder))
@@ -69,7 +69,7 @@ def getScheda(mac):
                                   commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
     return response
 
-def getPin(json_argument):
+def getJsonPin(json_argument):
     # effettuo il parsing degli argomenti
     received_json_data = json.loads(json_argument)
     mac = received_json_data['mac']
@@ -87,7 +87,7 @@ def getPin(json_argument):
                                   commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
     return response
 
-def getEventi():
+def getJsonEventi():
     return json.dumps(eventi.values(), cls = JsonEventEncoder)
 
 
@@ -332,11 +332,11 @@ def eseguiAzione(buf):
 
     # AZIONE: RECUPERA INFORMAZIONI SCHEDE
     elif EngineCommands.COMMAND_GET_INFO_SHIELDS in buf:
-        response = getSchede()
+        response = getJsonSchede()
 
     # AZIONE: RECUPERA INFORMAZIONI SCHEDE
     elif EngineCommands.COMMAND_GET_INFO_EVENTS in buf:
-        response = getEventi()
+        response = getJsonEventi()
 
     # AZIONE: ELIMINA SCHEDA
     elif EngineCommands.COMMAND_DELETE_SHIELD in buf:
@@ -364,7 +364,7 @@ def eseguiAzione(buf):
     # AZIONE: RESTITUISCE LE INFORMAZIONI DELLA SCHEDA
     elif EngineCommands.COMMAND_GET_SHIELD in buf:
         mac = getArgumentLine(buf)
-        response = getScheda(mac)
+        response = getJsonScheda(mac)
 
 
     # AZIONE: SETTA STATO PIN OUTPUT
@@ -376,7 +376,7 @@ def eseguiAzione(buf):
     # AZIONE: GET INFORMAZIONI PIN
     elif EngineCommands.COMMAND_GET_PIN in buf:
         json_argument = getArgumentLine(buf)
-        response = getPin(json_argument)
+        response = getJsonPin(json_argument)
 
 
     #comando non riconosciuto
@@ -396,6 +396,21 @@ def carica_dati_salvati():
             else:
                 shield.input_pin.append(pin)
         schede[shield.mac] = shield
+
+    # carico tutti gli eventi registrati
+    list_events = mysql_event_DAO.get_all_events(cnx)
+    for event in list_events:
+        condition = mysql_condition_DAO.get_condition_by_event_id(cnx, event)
+        if isinstance(condition, PinStateAlterationCondition):
+            # attualmente condition.shield contiene il mac address
+            condition.shield = schede[condition.shield]
+            condition.pin = condition.shield.getPinByNumber(condition.pin)
+        event.condition = condition
+
+        action = mysql_action_DAO.get_action_by_event_id(cnx, event)
+        event.action = action
+
+        eventi[event.id] = event
 
 def aggiorna_stato_schede():
     for shield in schede.itervalues():
@@ -465,7 +480,6 @@ except mysql.connector.Error as err:
   else:
     print(err)
     exit(1)
-
 
 carica_dati_salvati()
 

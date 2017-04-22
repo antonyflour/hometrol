@@ -1,5 +1,5 @@
 from evento import Evento
-
+import datetime
 ADD_EVENT = "INSERT INTO events " \
           "(id, repetition_interval, enabled, last_exec_time) " \
           "values (%s, %s, %s, %s)"
@@ -10,6 +10,9 @@ MODIFY_EVENT = "UPDATE events SET " \
              "enabled = %s, " \
              "last_exec_time = %s " \
              "WHERE id = %s"
+
+SELECT_ALL_EVENTS = "SELECT * FROM events"
+
 
 def add_event(cnx, event):
     if event.enabled is True:
@@ -40,3 +43,20 @@ def modify_event(cnx, event):
     event_tupla = (event.id, event.repetitionInterval, enabled, date, event.id)
     cnx.cursor().execute(MODIFY_EVENT, event_tupla)
     cnx.commit()
+
+def get_all_events(cnx):
+    cursor = cnx.cursor()
+    cursor.execute(SELECT_ALL_EVENTS)
+    list_events=[]
+    for (id, repetition_interval, enabled, last_exec_time) in cursor:
+        current_event = Evento(id, None, None, repetitionInterval=repetition_interval)
+
+        if int(enabled) == 1:
+            current_event.enabled = True
+        else:
+            current_event.enabled = False
+
+        if last_exec_time!= None:
+            current_event.lastExecutionTime = last_exec_time#datetime.datetime.strptime('%Y-%m-%d %H:%M:%S', last_exec_time)
+        list_events.append(current_event)
+    return list_events
