@@ -1,4 +1,4 @@
-from pin import Pin
+from core.pin import Pin
 
 ADD_PIN = "INSERT INTO pins " \
           "(mac_shield, numero, tipo, nome, usato, out_mode, in_mode) " \

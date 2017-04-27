@@ -1,5 +1,5 @@
-from evento import Evento
-import datetime
+from core.evento import Evento
+
 ADD_EVENT = "INSERT INTO events " \
           "(id, repetition_interval, enabled, last_exec_time) " \
           "values (%s, %s, %s, %s)"
@@ -12,6 +12,8 @@ MODIFY_EVENT = "UPDATE events SET " \
              "WHERE id = %s"
 
 SELECT_ALL_EVENTS = "SELECT * FROM events"
+
+DROP_EVENT = "DELETE FROM events WHERE id = %s"
 
 
 def add_event(cnx, event):
@@ -60,3 +62,7 @@ def get_all_events(cnx):
             current_event.lastExecutionTime = last_exec_time#datetime.datetime.strptime('%Y-%m-%d %H:%M:%S', last_exec_time)
         list_events.append(current_event)
     return list_events
+
+def drop_event(cnx, event):
+    cnx.cursor().execute(DROP_EVENT, (event.id,))  # se non passo una tupla si incazza
+    cnx.commit()

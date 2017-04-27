@@ -1,4 +1,4 @@
-from action import ActionInterface
+from core.actions.action import ActionInterface
 import time
 
 class PrintAction(ActionInterface):

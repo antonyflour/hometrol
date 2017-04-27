@@ -1,4 +1,4 @@
-from condition import ConditionInterface
+from core.conditions.condition import ConditionInterface
 
 class PinStateAlterationCondition(ConditionInterface):
 

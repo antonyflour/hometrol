@@ -7,7 +7,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 import commons
 from commons import EngineCommands
-from util.json_util import is_json
+from core.util.json_util import is_json
 
 PORT_NUMBER = 8080
 BUFFER_SIZE = 1000000
@@ -37,7 +37,7 @@ class myHandler(BaseHTTPRequestHandler):
             self.wfile.write(buf)
 
         #ottieni informazioni su un pin
-        elif re.match("/shield/.+/pin/.+", self.path):
+        elif re.match("/shields/.+/pins/.+", self.path):
             mac_address = self.path.split('/')[-3]
             numero_pin = self.path.split('/')[-1]
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()) and re.match("[0-9]+$", numero_pin):
@@ -63,7 +63,7 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_headers()
 
         #ottini informazioni su una scheda
-        elif re.match("/shield/.+", self.path):
+        elif re.match("/shields/.+", self.path):
             mac_address = self.path.split('/')[-1]  # prendo l'ultimo token
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
                 # invio comando e argomenti
@@ -93,7 +93,7 @@ class myHandler(BaseHTTPRequestHandler):
     def do_POST(self):
 
         #modifica stato pin
-        if re.match("/shield/.+/pin/.+/state", self.path):
+        if re.match("/shields/.+/pins/.+/state", self.path):
             mac_address = self.path.split('/')[-4]  # prendo l'ultimo token
             numero_pin = self.path.split('/')[-2]
 
@@ -140,7 +140,7 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_headers()
 
         #modifica informazioni del pin
-        elif re.match("/shield/.+/pin/.+", self.path):
+        elif re.match("/shields/.+/pins/.+", self.path):
             mac_address = self.path.split('/')[-3]
             numero_pin = self.path.split('/')[-1]
 
@@ -182,7 +182,7 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_headers()
 
         # modifica informazioni scheda (supportata solo la modifica del nome)
-        elif re.match("/shield/.+", self.path):
+        elif re.match("/shields/.+", self.path):
             mac_address = self.path.split('/')[-1]
 
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
@@ -222,7 +222,7 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_headers()
 
         # aggiungi una nuova scheda remota
-        elif re.match("/shield$", self.path):
+        elif re.match("/shields$", self.path):
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
             if ctype == 'application/json':
                 length = int(self.headers.getheader('content-length'))
@@ -263,7 +263,7 @@ class myHandler(BaseHTTPRequestHandler):
     def do_DELETE(self):
 
         #elimina una scheda
-        if re.match("/shield/.+", self.path):
+        if re.match("/shields/.+", self.path):
             mac_address = self.path.split('/')[-1]    #prendo l'ultimo token
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
                 # invio comando e argomenti
@@ -281,6 +281,22 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_response(commons.ErrorCode.ERROR_INVALID_MAC_NUMBER,
                                    commons.ErrorCode.ERROR_INVALID_MAC_MSG)
                 self.send_headers()
+
+        elif re.match("/events/.+", self.path):
+            id = self.path.split('/')[-1]
+
+            # invio comando e argomenti
+            buf = self.send_to_engine(EngineCommands.COMMAND_DELETE_EVENT, id)
+
+            code, body = self.parseResponse(buf)
+            if code == 200:
+                self.send_response(200)
+                self.send_headers()
+                self.send_payload(body)
+            else:
+                self.send_response(code, body)
+                self.send_headers()
+
 
         else:
             self.send_response(commons.ErrorCode.ERROR_NOT_FOUND_NUMBER,

@@ -1,33 +1,29 @@
 import StringIO
 import httplib
-import json
 import re
 import select
 import socket
 import time
-from util import util
+import json
 import mysql.connector
-from mysql.connector import errorcode
 
+from core.mysql_DAO import mysql_action_DAO, mysql_condition_DAO, mysql_database_init, mysql_event_DAO, mysql_pin_DAO, \
+    mysql_shield_DAO
+
+from mysql.connector import errorcode
+from core.actions.email_notify_action import EmailNotifyAction
+from core.actions.print_action import PrintAction
+from core.conditions.pin_state_alteration_condition import PinStateAlterationCondition
+from core.commons import EngineCommands, URIPath
 import commons
-import mysql_database_init
-import mysql_pin_DAO
-import mysql_shield_DAO
-import mysql_event_DAO
-import mysql_condition_DAO
-import mysql_action_DAO
-from commons import EngineCommands
-from commons import URIPath
-from pin import JsonPinEncoder
-from pin import Pin
-from shield import JsonShieldEncoder
-from shield import Shield
-from evento import *
-from pin_state_alteration_condition import PinStateAlterationCondition
-from print_action import PrintAction
+from core.evento import Evento, JsonEventEncoder
+from core.pin import JsonPinEncoder
+from core.pin import Pin
+from core.shield import JsonShieldEncoder
+from core.shield import Shield
+from core.util import util
 
 BUFFER_SIZE = 1000000
-
 
 def http_get(ip, port, request, timeout = 5):
     try:
@@ -107,12 +103,21 @@ def aggiungiEvento(json_argument):
             pin = scheda.getPinByNumber(received_json_data['numero_pin'])
 
             if pin != None:
-                if received_json_data['condition_type'] == 'PinStateCondition':
+                if received_json_data['condition_type'] == PinStateAlterationCondition.__name__:
                     id = "COND-"+util.randstring()
                     condition = PinStateAlterationCondition(id, scheda, pin, received_json_data['stato'])
-                    if received_json_data['action_type'] == 'PrintAction':
+                    if (received_json_data['action_type'] == PrintAction.__name__) or \
+                            (received_json_data['action_type'] == EmailNotifyAction.__name__):
+
+                        # creo l'azione associata all'evento
                         id = "ACT-" + util.randstring()
-                        action = PrintAction(id, "e' stato attivato il pin " + pin.nome)
+
+                        if received_json_data['action_type'] == PrintAction.__name__:
+                            action = PrintAction(id, "e' stato attivato il pin " + pin.nome)
+                        elif received_json_data['action_type'] == EmailNotifyAction.__name__:
+                            action = EmailNotifyAction(id, received_json_data['email'], "e' stato attivato il pin " + pin.nome)
+
+                        #creo l'evento
                         id = "EV-" + util.randstring()
                         evento = Evento(id, condition, action)
 
@@ -312,14 +317,26 @@ def setStatoPin(json_argument):
 ########## DELETE METHODS ###############
 
 def eliminaScheda(mac):
-    scheda = schede[mac]
-    mysql_shield_DAO.drop_shield(cnx, scheda)
-    del schede[mac]
-    response = formatResponse(200, "Scheda rimossa")
+    try:
+        scheda = schede[mac]
+        mysql_shield_DAO.drop_shield(cnx, scheda)
+        del schede[mac]
+        response = formatResponse(200, "Scheda rimossa")
+    except KeyError:
+        response = formatResponse(commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_NUMBER,
+                                  commons.ErrorCode.ERROR_SHIELD_NOT_FOUND_MSG)
     return response
 
-
-
+def eliminaEvento(id):
+    try:
+        evento = eventi[id]
+        mysql_event_DAO.drop_event(cnx, evento)
+        del eventi[id]
+        response = formatResponse(200, "Evento rimosso")
+    except KeyError:
+        response = formatResponse(commons.ErrorCode.ERROR_EVENT_NOT_FOUND_NUMBER,
+                                  commons.ErrorCode.ERROR_EVENT_NOT_FOUND_MSG)
+    return response
 
 
 def eseguiAzione(buf):
@@ -342,6 +359,11 @@ def eseguiAzione(buf):
     elif EngineCommands.COMMAND_DELETE_SHIELD in buf:
         mac = getArgumentLine(buf)
         response = eliminaScheda(mac)
+
+    # AZIONE: ELIMINA EVENTO
+    elif EngineCommands.COMMAND_DELETE_EVENT in buf:
+        id = getArgumentLine(buf)
+        response = eliminaEvento(id)
 
     # AZIONE: MODIFICA PIN
     elif EngineCommands.COMMAND_MODIFY_PIN in buf:
@@ -483,7 +505,6 @@ except mysql.connector.Error as err:
 
 carica_dati_salvati()
 
-#TODO: caricare gli EVENTI
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serversocket.bind(('localhost', 8089))

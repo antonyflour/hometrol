@@ -1,9 +1,11 @@
-import threading
-from condition import ConditionInterface
-from action import ActionInterface
-from json_encoder import *
 import datetime
+import threading
+
+from actions.action import ActionInterface
+from conditions.condition import ConditionInterface
+from json_encoder import JsonActionEncoder, JsonConditionEncoder
 import json
+
 
 class Evento():
 
@@ -47,6 +49,7 @@ class Evento():
 
 class JsonEventEncoder(json.JSONEncoder):
     def default(self, obj):
+
         if isinstance(obj, Evento):
             timeSerialized = None
             if obj.lastExecutionTime is not None:

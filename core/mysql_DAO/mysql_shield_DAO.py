@@ -1,5 +1,4 @@
-import mysql.connector
-from shield import Shield
+from core.shield import Shield
 
 ADD_SHIELD = "INSERT INTO shields " \
                 "(mac, nome, ip, port) " \

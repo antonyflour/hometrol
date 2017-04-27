@@ -1,5 +1,5 @@
+import mysql.connector
 
-from mysql.connector import cursor
 
 TABLE = {}
 
@@ -54,7 +54,6 @@ TABLE['actions'] = "CREATE TABLE actions(" \
                 "ON UPDATE CASCADE " \
                 "ON DELETE CASCADE);"
 
-import mysql.connector
 def create_database(cursor, db_name):
     try:
         cursor.execute(

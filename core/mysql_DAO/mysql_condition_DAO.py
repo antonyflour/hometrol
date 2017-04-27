@@ -1,5 +1,4 @@
-from condition import ConditionInterface
-from pin_state_alteration_condition import PinStateAlterationCondition
+from core.conditions.pin_state_alteration_condition import PinStateAlterationCondition
 
 ADD_CONDITION = "INSERT INTO conditions " \
           "(id, event, type, mac_shield, pin_number, expected_state) " \

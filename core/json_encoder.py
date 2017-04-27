@@ -1,6 +1,10 @@
 import json
-from pin_state_alteration_condition import PinStateAlterationCondition
-from print_action import PrintAction
+
+from actions.print_action import PrintAction
+from actions.email_notify_action import EmailNotifyAction
+from conditions.pin_state_alteration_condition import PinStateAlterationCondition
+
+
 class JsonConditionEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, PinStateAlterationCondition):
@@ -17,6 +21,11 @@ class JsonActionEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, PrintAction):
             return {"id" : obj.id,
+                    "msg": obj.msg,
+                    }
+        if isinstance(obj, EmailNotifyAction):
+            return {"id" : obj.id,
+                    "email" : obj.email,
                     "msg": obj.msg,
                     }
 

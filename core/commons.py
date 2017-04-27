@@ -13,7 +13,7 @@ class EngineCommands:
     COMMAND_MODIFY_SHIELD = "modifyShield"
     COMMAND_ADD_EVENT = "addEvent"
     COMMAND_GET_INFO_EVENTS = "getEvents"
-
+    COMMAND_DELETE_EVENT = "deleteEvent"
 
 class URIPath:
 
@@ -74,5 +74,8 @@ class ErrorCode:
     ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER = 910
     ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG = "Condition type not recognized"
 
-    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_NUMBER = 911
-    ERROR_CONDITION_TYPE_NOT_RECOGNIZED_MSG = "Action type not recognized"
+    ERROR_ACTION_TYPE_NOT_RECOGNIZED_NUMBER = 911
+    ERROR_ACTION_TYPE_NOT_RECOGNIZED_MSG = "Action type not recognized"
+
+    ERROR_EVENT_NOT_FOUND_NUMBER = 912
+    ERROR_EVENT_NOT_FOUND_MSG = "Event not found"
