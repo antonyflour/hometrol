@@ -8,7 +8,7 @@ import json
 import mysql.connector
 
 from core.mysql_DAO import mysql_action_DAO, mysql_condition_DAO, mysql_database_init, mysql_event_DAO, mysql_pin_DAO, \
-    mysql_shield_DAO
+    mysql_shield_DAO, mysql_system_email_DAO
 
 from mysql.connector import errorcode
 from core.actions.email_notify_action import EmailNotifyAction
@@ -22,6 +22,7 @@ from core.pin import Pin
 from core.shield import JsonShieldEncoder
 from core.shield import Shield
 from core.util import util
+from core.system_email import SystemEmail
 
 BUFFER_SIZE = 1000000
 
@@ -54,7 +55,9 @@ def formatResponse(response_code, body):
 ############ GET METHOD ##############
 
 def getJsonSchede():
-    return json.dumps(schede.values(), cls = JsonShieldEncoder)
+    response = formatResponse(200,json.dumps(schede.values(), cls = JsonShieldEncoder))
+    return response
+
 
 def getJsonScheda(mac):
     if mac in schede:
@@ -84,8 +87,12 @@ def getJsonPin(json_argument):
     return response
 
 def getJsonEventi():
-    return json.dumps(eventi.values(), cls = JsonEventEncoder)
+    response = formatResponse(200, json.dumps(eventi.values(), cls = JsonEventEncoder))
+    return response
 
+def getJsonSystemEmail():
+    response = formatResponse(200, json.dumps(systemEmail.address))
+    return response
 
 ########### ADD METHODS ###############
 
@@ -115,6 +122,7 @@ def aggiungiEvento(json_argument):
                         if received_json_data['action_type'] == PrintAction.__name__:
                             action = PrintAction(id, "e' stato attivato il pin " + pin.nome)
                         elif received_json_data['action_type'] == EmailNotifyAction.__name__:
+                        #TODO: aggiundere ulteriori controlli
                             action = EmailNotifyAction(id, received_json_data['email'], "e' stato attivato il pin " + pin.nome)
 
                         #creo l'evento
@@ -210,7 +218,27 @@ def aggiungiScheda(json_argument):
                                   commons.ErrorCode.ERROR_SHIELD_COMMUNICATION_MSG)
     return response
 
+def aggiungiSystemEmail(json_argument):
+    if not systemEmail.isSet():
+        received_json_data = json.loads(json_argument)
+        if 'address' in received_json_data and 'password' in received_json_data:
+            address = received_json_data['address']
+            password = received_json_data['password']
 
+            systemEmail.address = address
+            systemEmail.password = password
+
+            #aggiungo la nuova email
+            mysql_system_email_DAO.add_system_email(cnx, systemEmail)
+
+            response = formatResponse(200, "System Email aggiunta con successo")
+        else:
+            response = formatResponse(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                      commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+    else:
+        response = formatResponse(commons.ErrorCode.ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_NUMBER,
+                                  commons.ErrorCode.ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_MSG)
+    return response
 ########## MODIFY METHODS ##############
 
 def modificaPin(json_argument):
@@ -338,6 +366,13 @@ def eliminaEvento(id):
                                   commons.ErrorCode.ERROR_EVENT_NOT_FOUND_MSG)
     return response
 
+def eliminaSystemEmail():
+    mysql_system_email_DAO.drop_system_email(cnx, systemEmail)
+    systemEmail.address = None
+    systemEmail.password = None
+    response = formatResponse(200, "System Email rimossa")
+    return response
+
 
 def eseguiAzione(buf):
 
@@ -400,6 +435,18 @@ def eseguiAzione(buf):
         json_argument = getArgumentLine(buf)
         response = getJsonPin(json_argument)
 
+    # AZIONE: GET EMAIL DI SISTEMA
+    elif EngineCommands.COMMAND_GET_SYSTEM_EMAIL in buf:
+        response = getJsonSystemEmail()
+
+    #AZIONE: AGGIUNGI EMAIL DI SISTEMA
+    elif EngineCommands.COMMAND_ADD_SYSTEM_EMAIL in buf:
+        json_argument = getArgumentLine(buf)
+        response = aggiungiSystemEmail(json_argument)
+
+    #AZIONE: ELIMINA EMAIL DI SISTEMA
+    elif EngineCommands.COMMAND_DELETE_SYSTEM_EMAIL in buf:
+        response = eliminaSystemEmail()
 
     #comando non riconosciuto
     else:
@@ -434,6 +481,11 @@ def carica_dati_salvati():
 
         eventi[event.id] = event
 
+    #carico la mail di sistema usata per inviare notifiche
+    email = mysql_system_email_DAO.get_system_email(cnx)
+    systemEmail.address = email.address
+    systemEmail.password = email.password
+
 def aggiorna_stato_schede():
     for shield in schede.itervalues():
         status, response = http_get(shield.ip, shield.port, URIPath.URI_INPUT_STATUS, timeout=1)
@@ -462,6 +514,7 @@ cose = {}
 schede = {}
 config_dict = {}
 eventi = {}
+systemEmail = SystemEmail(None, None)
 
 # leggo i valori dal file di configurazione
 try:
@@ -498,6 +551,8 @@ except mysql.connector.Error as err:
     print "Tabella conditions creata con successo"
     mysql_database_init.create_table_actions(cnx.cursor())
     print "Tabella actions creata con successo"
+    mysql_database_init.create_table_system_email(cnx.cursor())
+    print "Tabella systememail creata con successo"
 
   else:
     print(err)

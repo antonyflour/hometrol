@@ -14,6 +14,9 @@ class EngineCommands:
     COMMAND_ADD_EVENT = "addEvent"
     COMMAND_GET_INFO_EVENTS = "getEvents"
     COMMAND_DELETE_EVENT = "deleteEvent"
+    COMMAND_GET_SYSTEM_EMAIL = "getSystemEmail"
+    COMMAND_ADD_SYSTEM_EMAIL = "addSystemEmail"
+    COMMAND_DELETE_SYSTEM_EMAIL = "deleteSystemEmail"
 
 class URIPath:
 
@@ -79,3 +82,6 @@ class ErrorCode:
 
     ERROR_EVENT_NOT_FOUND_NUMBER = 912
     ERROR_EVENT_NOT_FOUND_MSG = "Event not found"
+
+    ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_NUMBER = 913
+    ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_MSG = "System email already exists, please first remove the old one"

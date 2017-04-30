@@ -54,6 +54,10 @@ TABLE['actions'] = "CREATE TABLE actions(" \
                 "ON UPDATE CASCADE " \
                 "ON DELETE CASCADE);"
 
+TABLE['systememail'] = "CREATE TABLE systememail(" \
+                "email VARCHAR(50) PRIMARY KEY," \
+                "password VARCHAR(50) NOT NULL);"
+
 def create_database(cursor, db_name):
     try:
         cursor.execute(
@@ -93,6 +97,13 @@ def create_table_conditions(cursor):
 def create_table_actions(cursor):
     try:
         cursor.execute(TABLE['actions'])
+    except mysql.connector.Error as err:
+        print("Failed creating table pins: {}".format(err))
+        exit(1)
+
+def create_table_system_email(cursor):
+    try:
+        cursor.execute(TABLE['systememail'])
     except mysql.connector.Error as err:
         print("Failed creating table pins: {}".format(err))
         exit(1)

@@ -20,21 +20,26 @@ class myHandler(BaseHTTPRequestHandler):
         #ottieni informazioni su tutte le schede
         if re.match("/shields$", self.path):
             buf = self.send_to_engine(EngineCommands.COMMAND_GET_INFO_SHIELDS, "")
-
-            self.send_response(200)
-            self.send_headers()
-            self.end_headers()
-            #   Send the html message
-            self.wfile.write(buf)
+            code, body = self.parseResponse(buf)
+            if code == 200:
+                self.send_response(200)
+                self.send_headers()
+                self.send_payload(body)
+            else:
+                self.send_response(code, body)
+                self.send_headers()
 
         elif re.match("/events$", self.path):
             buf = self.send_to_engine(EngineCommands.COMMAND_GET_INFO_EVENTS, "")
+            code, body = self.parseResponse(buf)
+            if code == 200:
+                self.send_response(200)
+                self.send_headers()
+                self.send_payload(body)
+            else:
+                self.send_response(code, body)
+                self.send_headers()
 
-            self.send_response(200)
-            self.send_headers()
-            self.end_headers()
-            #   Send the html message
-            self.wfile.write(buf)
 
         #ottieni informazioni su un pin
         elif re.match("/shields/.+/pins/.+", self.path):
@@ -62,7 +67,7 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_MAC_PIN_MSG)
                 self.send_headers()
 
-        #ottini informazioni su una scheda
+        #ottieni informazioni su una scheda
         elif re.match("/shields/.+", self.path):
             mac_address = self.path.split('/')[-1]  # prendo l'ultimo token
             if re.match(commons.REG_EXP_MAC_ADDRESS, mac_address.lower()):
@@ -81,6 +86,18 @@ class myHandler(BaseHTTPRequestHandler):
             else:
                 self.send_response(commons.ErrorCode.ERROR_INVALID_MAC_NUMBER,
                                    commons.ErrorCode.ERROR_INVALID_MAC_MSG)
+                self.send_headers()
+
+        #ottieni informazioni sulla mail di sistema usata per le notifiche
+        elif re.match("/systememail$", self.path):
+            buf = self.send_to_engine(EngineCommands.COMMAND_GET_SYSTEM_EMAIL, "")
+            code, body = self.parseResponse(buf)
+            if code == 200:
+                self.send_response(200)
+                self.send_headers()
+                self.send_payload(body)
+            else:
+                self.send_response(code, body)
                 self.send_headers()
 
         else:
@@ -297,6 +314,17 @@ class myHandler(BaseHTTPRequestHandler):
                 self.send_response(code, body)
                 self.send_headers()
 
+        elif re.match("/systememail$", self.path):
+            buf = self.send_to_engine(EngineCommands.COMMAND_DELETE_SYSTEM_EMAIL, "")
+
+            code, body = self.parseResponse(buf)
+            if code == 200:
+                self.send_response(200)
+                self.send_headers()
+                self.send_payload(body)
+            else:
+                self.send_response(code, body)
+                self.send_headers()
 
         else:
             self.send_response(commons.ErrorCode.ERROR_NOT_FOUND_NUMBER,
@@ -336,6 +364,38 @@ class myHandler(BaseHTTPRequestHandler):
                                    commons.ErrorCode.ERROR_INVALID_CONTENT_TYPE_MSG)
                 self.send_headers()
 
+        elif re.match("/systememail$", self.path):
+            ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+            if ctype == 'application/json':
+                length = int(self.headers.getheader('content-length'))
+                payload = self.rfile.read(length).decode("utf-8")
+
+                if is_json(payload):
+
+                    buf = self.send_to_engine(EngineCommands.COMMAND_ADD_SYSTEM_EMAIL, payload)
+                    print buf
+
+                    code, body = self.parseResponse(buf)
+                    if code == 200:
+                        self.send_response(200)
+                        self.send_headers()
+                        self.send_payload(body)
+                    else:
+                        self.send_response(code, body)
+                        self.send_headers()
+                else:
+                    self.send_response(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                       commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+                    self.send_headers()
+            else:
+                self.send_response(commons.ErrorCode.ERROR_INVALID_CONTENT_TYPE_NUMBER,
+                                   commons.ErrorCode.ERROR_INVALID_CONTENT_TYPE_MSG)
+                self.send_headers()
+
+        else:
+            self.send_response(commons.ErrorCode.ERROR_NOT_FOUND_NUMBER,
+                               commons.ErrorCode.ERROR_NOT_FOUND_MSG)
+            self.send_headers()
         return
 
     def send_headers(self):

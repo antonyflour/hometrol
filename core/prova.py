@@ -1,5 +1,6 @@
 import re
 from util import util
+import system_email
 from email_sender.gmail_email_sender import GmailEmailSender
 
 x = "90-A2-DA-0F-45-D4"
@@ -10,5 +11,7 @@ else:
 
 print "EV-"+util.randstring()
 
-sender = GmailEmailSender("raspberryprova@gmail.com", "raspberry1234")
-sender.send("antoniofarina1702@gmail.com","avviso Hometrol", "ciao e' una prova")
+
+email = system_email.SystemEmail("raspberryprova@gmail.com", "pRova1234")
+sender = GmailEmailSender(email.address, email.password)
+sender.send("antoniofarina1702@gmail.com","hometrol", "ciaociao")
