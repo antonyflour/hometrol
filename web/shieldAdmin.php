@@ -8,7 +8,7 @@ if($code_login <1) {
 }
 
 $mac = $_REQUEST['mac'];
-$curl = http_get("http://localhost:8080/shield/".$mac);
+$curl = http_get("http://localhost:8080/shields/".$mac);
 	$resp = curl_exec($curl);
 	$curl_info = curl_getinfo($curl);
 	curl_close($curl);

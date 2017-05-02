@@ -1,6 +1,8 @@
 <?php
 include_once 'functionCheckLogin.php';
 include_once 'functionHTTP.php';
+include_once 'stub.php';
+include_once 'shield.php';
 
 $code_login = login_check($mysqli);	
 if($code_login <1) {
@@ -25,12 +27,8 @@ if($code_login <1) {
     ###
     ### GET SHIELDS
     ###
-    $curl = http_get("http://localhost:8080/shields");
-		$resp = curl_exec($curl);
-		$curl_info = curl_getinfo($curl);
-		curl_close($curl);
-		if($curl_info['http_code']==200){
-			$shields = json_decode($resp,true);
+    try{
+        $shields = getShields();
         if (empty($shields)) {
           echo " Non ci sono schede collegate ";
         }
@@ -38,19 +36,20 @@ if($code_login <1) {
           echo "<table border=1 align=center cellpadding=5 cellspacing=0>";
           echo "<tr class='boldtr'><td>MAC<td>NOME<td>IP<td>PORTA";
           foreach($shields as $shield){
-            $mac = $shield['mac'];
-            $nome = $shield['nome'];
-            $ip = $shield['ip'];
-            $port = $shield['port'];
+            $mac = $shield->getMac();
+            $nome = $shield->getNome();
+            $ip = $shield->getIp();
+            $port = $shield->getPort();
             echo "<br>";
             echo "<tr><td><a href='shieldAdmin.php?mac=".$mac."'>".$mac."</a><td class='boldtd'>".$nome."<td>".$ip."<td>".$port;
           }            
         }
 		echo "</table>";
-	}
-	else{
-		echo "Impossibile recuperare le schede";
-	}
+    }
+    catch (Exception $e){
+        echo $e->getMessage();
+    }
+
 	?>
 	<br>
 	<table align=center border=0 cellpadding=3>

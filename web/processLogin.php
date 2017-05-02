@@ -21,10 +21,7 @@ if (isset($_POST['username'], $_POST['pass'])) {
         header('Location: index.php');
     }
 } else {
-	echo $_POST['username'];
-	echo "pass: ". $_POST['pass'];
-    // The correct POST variables were not sent to this page. 
-    echo 'Invalid Request';
+	echo "<html><head></head><body><script>alert('username o password non settati'); location.assign('index.php');</script></body></html>";
 }
 
 ?>
