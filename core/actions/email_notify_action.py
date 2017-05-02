@@ -1,6 +1,5 @@
 from core.actions.action import ActionInterface
 from core.email_sender.gmail_email_sender import GmailEmailSender
-import core.engine
 
 class EmailNotifyAction(ActionInterface):
 
@@ -11,6 +10,7 @@ class EmailNotifyAction(ActionInterface):
 
     def execute(self):
         try:
+            import core.engine
             sender = GmailEmailSender(core.engine.systemEmail.address, core.engine.systemEmail.password)
             sender.send(self.email, "HOMETROL NOTIFY", self.msg)
         except Exception:

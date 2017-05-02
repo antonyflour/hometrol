@@ -1,6 +1,5 @@
 from core.actions.print_action import PrintAction
 from core.actions.email_notify_action import EmailNotifyAction
-
 ADD_ACTION = "INSERT INTO actions " \
           "(id, event, type, mac_shield, pin_number, state, email, msg) " \
           "values (%s, %s, %s, %s, %s, %s, %s, %s)"
