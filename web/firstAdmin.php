@@ -1,8 +1,7 @@
 <?php
 include_once 'functionCheckLogin.php';
 include_once 'functionHTTP.php';
-include_once 'stub.php';
-include_once 'shield.php';
+include_once 'stub/stub.php';
 
 $code_login = login_check($mysqli);	
 if($code_login <1) {
