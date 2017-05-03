@@ -18,5 +18,10 @@ function sec_session_start($mysqli, $username, $admin) {
 	$stmt->bind_param('sssss', $key, $username, $admin, $date, $time);        
 	$stmt->execute();    // Execute the prepared query.
 	setcookie("raspuino_cookie",$key,time()+600,"/",false);
+
+    if($admin=="NO"){
+        //cookie usato per il pinpad, dura un anno
+        setcookie("known_host","yes",time()+(60*60*24*365),"/",false);
+    }
 }
 ?>

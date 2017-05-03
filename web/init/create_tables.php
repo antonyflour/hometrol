@@ -18,7 +18,8 @@
 	$users_table_ok=false;
 	if ($stmt = $mysqli->prepare("CREATE TABLE users(
 															 username VARCHAR(50) PRIMARY KEY,
-															 password VARCHAR(128) NOT NULL);")) {
+															 password VARCHAR(128) NOT NULL,
+															 pin VARCHAR(10));")) {
 					if($stmt->execute()){
 						$users_table_ok=true;
 					}
