@@ -8,6 +8,7 @@
 
 include_once 'shield.php';
 include_once 'pin.php';
+include_once 'evento.php';
 
 function json_decode_shields_array($json_string){
     $tot_assoc_array = json_decode($json_string, true);
@@ -58,4 +59,36 @@ function json_decode_pins_array($json_string){
     }
 
     return $pins_array;
+}
+
+function json_decode_events_array($json_string){
+    $tot_assoc_array = json_decode($json_string, true);
+
+    $events = array();
+
+    foreach($tot_assoc_array as $assoc_array){
+
+        array_push($events, json_decode_event($assoc_array));
+    }
+
+    return $events;
+}
+
+function json_decode_event($json_string){
+    //se l'argomento è la stringa json la decodifico, altrimenti utilizzo direttamente come array associativo
+    if(is_array($json_string))
+        $assoc_array = $json_string;
+    else
+        $assoc_array = json_decode($json_string, true);
+
+    $id = $assoc_array['id'];
+    $interval = $assoc_array['repetitionInterval'];
+    $enabled = $assoc_array['enabled'];
+    $lastExecTime = $assoc_array['last_exec_time'];
+
+   // $input_pins_array = json_decode_pins_array($assoc_array['input_pin']);
+
+    //$output_pins_array = json_decode_pins_array($assoc_array['output_pin']);
+
+    return new Evento($id, $enabled, $lastExecTime, $interval, NULL, NULL);
 }

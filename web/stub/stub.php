@@ -30,3 +30,13 @@ function getShield($mac) {
     }
 }
 
+function getEvents(){
+    try{
+        $resp = http_get(URL_GET_EVENTS);
+        $events = json_decode_events_array($resp);
+        return $events;
+    } catch (Exception $e){
+        throw new Exception("Impossibile recuperare gli eventi registrati");
+    }
+}
+

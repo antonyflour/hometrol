@@ -27,10 +27,16 @@ if ($admin_code >=0) {
 <body>
 <script>
     function setUsername(value) {
-        $("#username").value = value;
+        $("#username").val(value);
         $("#div-username").hide();
         $("#h3title").text("Inserisci password per: "+value);
         $("#div-password").show();
+    }
+
+    function back() {
+        $("#div-password").hide();
+        $("#div-username").show();
+        $("#h3title").text("Accedi come:");
     }
 
 </script>
@@ -38,21 +44,7 @@ if ($admin_code >=0) {
 <!-- HEADER E MENU -->
 <div id="container">
     <header>
-<!--        <div class="menu">-->
-<!--            <div class="closeButton"><a class="icon-close"><div id="divButtonClose">&nbsp;</div></a></div>-->
-<!--            <ul>-->
-<!---->
-<!--                <li><a href="#">Home</a></li>-->
-<!--                <li><a href="#">Running</a></li>-->
-<!--                <li><a href="#">Percorsi</a></li>-->
-<!--                <li><a href="#">Allenamenti</a></li>-->
-<!--                <li><a href="#">Alimentazione</a></li>-->
-<!--                <li><a href="#">Contattaci</a></li>-->
-<!---->
-<!--            </ul>-->
-<!--        </div>-->
-<!--        <div id="menuButton"><a class="icon-menu"><div id="divButtonMenu">&nbsp;</div></a></div>-->
-        <div id="divHeader"><img id="logo" src="img/icon/smarthome_icon_conscritta.png" /></div>
+        <div id="divHeader"><img id="logo" src="img/icon/main_icon_conscritta.png" /></div>
     </header>
 </div>
 <script type="text/javascript" src="js/menu_animation.js"></script>
@@ -61,8 +53,8 @@ if ($admin_code >=0) {
     <div id="login-form">
         <h3 id="h3title">Accedi come: </h3>
         <fieldset>
-            <form action="processLogin.php" method="post" name="login_form" id="login_form">
-                <input type="hidden" id="username">
+            <form action="processLogin.php" method="POST" name="login_form" id="login_form">
+                <input name = "username" type="hidden" id="username">
                 <div align="center" id="div-username">
                     <input type="button" value="ADMIN" onclick="setUsername('admin')">
                     <br>
@@ -71,7 +63,8 @@ if ($admin_code >=0) {
 
                 <div align="center" id="div-password">
                     <input type="password" name="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' ">
-                    <input type="button" value="Login" onclick="formhash(this.form, this.form.password);" />
+                    <input type="submit" value="Login" onclick="formhash(this.form, this.form.password);" />
+                    <input type="button" value="Indietro" onclick="back();" />
                 </div>
 
                 <script> $("#div-password").hide(); </script>

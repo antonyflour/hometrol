@@ -17,7 +17,8 @@ if (isset($_POST['username'], $_POST['pass'])) {
 		header('Location: firstUser.php');
 	}
     } else {
-        // Login failed 
+        // Login failed
+
         header('Location: index.php');
     }
 } else {

@@ -9,6 +9,6 @@ function formhash(form, password) {
     form.appendChild(p); // added this
     // Make sure the plaintext password doesn't get sent. 
     password.value = "";
-    // Finally submit the form. 
+    // Finally submit the form.
     form.submit();
 }
