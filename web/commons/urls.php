@@ -8,6 +8,7 @@
 
 define('URL_BASE' , "http://localhost:8080/");
 
-define('URL_GET_SHIELDS' , URL_BASE."shields");
-define('URL_GET_SHIELD' , URL_BASE."shields/");
-define('URL_GET_EVENTS' , URL_BASE."events");
+define('URL_SHIELDS' , URL_BASE."shields");
+define('URL_SHIELD' , URL_BASE."shields/");
+define('URL_EVENTS' , URL_BASE."events");
+define('URL_EVENT' , URL_BASE."events/");

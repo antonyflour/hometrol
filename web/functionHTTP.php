@@ -39,7 +39,15 @@ function http_delete($url){
         CURLOPT_URL => $url,
         CURLOPT_USERAGENT => 'Raspberry',
         CURLOPT_TIMEOUT => 5));
-    return $curl;
+    $resp = curl_exec($curl);
+    $curl_info = curl_getinfo($curl);
+    curl_close($curl);
+    if($curl_info['http_code']==200) {
+        return $resp;
+    }
+    else {
+        throw new Exception("HTTP GET Exception");
+    }
 }
 
 ?>

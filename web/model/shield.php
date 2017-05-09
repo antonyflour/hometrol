@@ -130,7 +130,17 @@ class Shield{
         $this->output_pin = $output_pin;
     }
 
+    public function getPinByNum($num){
+        foreach ($this->input_pin as $pin)
+            if($pin->getNumero() == $num)
+                return $pin;
 
+        foreach ($this->output_pin as $pin)
+            if($pin->getNumero() == $num)
+                return $pin;
+
+        return NULL;
+    }
 
 
 }

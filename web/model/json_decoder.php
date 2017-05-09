@@ -9,6 +9,8 @@
 include_once 'shield.php';
 include_once 'pin.php';
 include_once 'evento.php';
+include_once 'pinStateAlterationCondition.php';
+include_once 'emailNotifyAction.php';
 
 function json_decode_shields_array($json_string){
     $tot_assoc_array = json_decode($json_string, true);
@@ -86,9 +88,46 @@ function json_decode_event($json_string){
     $enabled = $assoc_array['enabled'];
     $lastExecTime = $assoc_array['last_exec_time'];
 
-   // $input_pins_array = json_decode_pins_array($assoc_array['input_pin']);
+    $condition_type = $assoc_array['condition_type'];
+    $action_type = $assoc_array['action_type'];
 
-    //$output_pins_array = json_decode_pins_array($assoc_array['output_pin']);
+    $condition = NULL;
+    if($condition_type == PinStateAlterationCondition::class){
+        $condition = json_decode_pinStateAlterationCondition($assoc_array['condition']);
+    }
 
-    return new Evento($id, $enabled, $lastExecTime, $interval, NULL, NULL);
+    $action = NULL;
+    if($action_type == EmailNotifyAction::class){
+        $action = json_decode_emailNotifyAction($assoc_array['action']);
+    }
+
+    return new Evento($id, $enabled, $lastExecTime, $interval, $condition, $action);
+}
+
+function json_decode_pinStateAlterationCondition($json_string){
+    if(is_array($json_string))
+        $assoc_array = $json_string;
+    else
+        $assoc_array = json_decode($json_string, true);
+
+    $id = $assoc_array['id'];
+    $mac = $assoc_array['mac_shield'];
+    $pin = $assoc_array['pin_number'];
+    $expected_state = $assoc_array['expected_state'];
+
+    return new PinStateAlterationCondition($id, $mac, $pin, $expected_state);
+}
+
+function json_decode_emailNotifyAction($json_string){
+    if(is_array($json_string))
+        $assoc_array = $json_string;
+    else
+        $assoc_array = json_decode($json_string, true);
+
+    $id = $assoc_array['id'];
+    $email = $assoc_array['email'];
+    $msg = $assoc_array['msg'];
+
+    return new EmailNotifyAction($id, $email, $msg);
+
 }
