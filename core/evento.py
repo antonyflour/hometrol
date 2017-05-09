@@ -59,7 +59,9 @@ class JsonEventEncoder(json.JSONEncoder):
                     "action" : json.dumps(obj.action, cls=JsonActionEncoder),
                     "repetitionInterval" : obj.repetitionInterval,
                     "enabled" : obj.enabled,
-                    "last_exec_time" : timeSerialized
+                    "last_exec_time" : timeSerialized,
+                    "condition_type" : obj.condition.__class__.__name__,
+                    "action_type" : obj.action.__class__.__name__
                     }
 
         return json.JSONEncoder.default(self, obj)
