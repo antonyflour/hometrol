@@ -12,7 +12,7 @@ include_once dirname(__DIR__).'../model/json_decoder.php';
 
 function getShields() {
     try{
-        $resp = http_get(URL_GET_SHIELDS);
+        $resp = http_get(URL_SHIELDS);
         $shields = json_decode_shields_array($resp);
         return $shields;
     } catch (Exception $e){
@@ -22,7 +22,7 @@ function getShields() {
 
 function getShield($mac) {
     try{
-        $resp = http_get(URL_GET_SHIELD.$mac);
+        $resp = http_get(URL_SHIELD.$mac);
         $shield = json_decode_shield($resp);
         return $shield;
     } catch (Exception $e){
@@ -32,11 +32,20 @@ function getShield($mac) {
 
 function getEvents(){
     try{
-        $resp = http_get(URL_GET_EVENTS);
+        $resp = http_get(URL_EVENTS);
         $events = json_decode_events_array($resp);
         return $events;
     } catch (Exception $e){
         throw new Exception("Impossibile recuperare gli eventi registrati");
+    }
+}
+
+function deleteEvent($id){
+    try{
+        $resp = http_delete(URL_EVENT.$id);
+        return $resp;
+    } catch (Exception $e){
+        throw new Exception("Impossibile eliminare l'evento");
     }
 }
 

@@ -29,7 +29,7 @@ if($code_login <1) {
                     <ul>
 
                         <li><a href="#">Aggiungi Scheda</a></li>
-                        <li><a href="events.php">Eventi</a></li>
+                        <li><a href="eventsView.php">Eventi</a></li>
                         <li><a href="#">Impostazioni</a></li>
                         <li><a href="#">Logout</a></li>
 
