@@ -8,6 +8,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import commons
 from commons import EngineCommands
 from core.util.json_util import is_json
+from core.email_sender.gmail_email_sender import GmailEmailSender
 
 PORT_NUMBER = 8080
 BUFFER_SIZE = 1000000
@@ -268,6 +269,35 @@ class myHandler(BaseHTTPRequestHandler):
                     self.send_response(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
                                        commons.ErrorCode.ERROR_INVALID_BODY_MSG)
                     self.send_headers()
+
+        elif re.match("/systememail/test$", self.path):
+            ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+            if ctype == 'application/json':
+                length = int(self.headers.getheader('content-length'))
+                payload = self.rfile.read(length).decode("utf-8")
+                if is_json(payload):
+                    payload = json.loads(payload)
+                    if 'from' in payload and 'password' in payload and 'to' in payload:
+                        try:
+                            sender = GmailEmailSender(payload['from'], payload['password'])
+                            sender.send(payload['to'], "HOMETROL TEST", "se ti arriva questa mail il sistema funziona correttamente")
+                            self.send_response(200)
+                            self.send_headers()
+                            self.send_payload("ok")
+                        except Exception:
+                            self.send_response(commons.ErrorCode.ERROR_TEST_EMAIL_NUMBER,
+                                               commons.ErrorCode.ERROR_TEST_EMAIL_MSG)
+                            self.send_headers()
+                    else:
+                        self.send_response(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                           commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+                        self.send_headers()
+                else:
+                    self.send_response(commons.ErrorCode.ERROR_INVALID_BODY_NUMBER,
+                                       commons.ErrorCode.ERROR_INVALID_BODY_MSG)
+                    self.send_headers()
+
+
 
         else:
             self.send_response(commons.ErrorCode.ERROR_NOT_FOUND_NUMBER,

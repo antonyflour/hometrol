@@ -85,3 +85,6 @@ class ErrorCode:
 
     ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_NUMBER = 913
     ERROR_SYSTEM_EMAIL_ALREADY_EXISTS_MSG = "System email already exists, please first remove the old one"
+
+    ERROR_TEST_EMAIL_NUMBER = 914
+    ERROR_TEST_EMAIL_MSG = "Test email fallito"
